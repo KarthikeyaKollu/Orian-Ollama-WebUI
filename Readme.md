@@ -125,7 +125,7 @@ You can contribute in several ways:
 ## Setting Up the Repository
 
 1. **Fork the Repository**
-   - Navigate to the [Orian (Ollama WebUI) GitHub page](https://github.com/KarthikeyaKollu/browserAI.01).
+   - Navigate to the [Orian (Ollama WebUI) GitHub page](https://github.com/KarthikeyaKollu/Orian-Ollama-WebUI).
    - Click on the "Fork" button at the top right of the page to create a copy of the repository on your GitHub account.
 
 2. **Clone Your Fork**
