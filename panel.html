@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Orian</title>
+    <link rel="stylesheet" id="theme" href="css/light.css">
+    <script src="lib/marked.min.js" integrity="sha384-dZulhREgb+hCgQMhZ2VG0l37VQj5pJBq2w0h7Jn3tdMn36aXNepF1+FMLBB4O649" crossorigin="anonymous"></script>
+    <script src="lib/prism.js"></script>
+    <script src="lib/pdf.min.js"></script>
+    <link href="css/prism.css" rel="stylesheet">
+    <link href="css/output.css" rel="stylesheet">
+</head>
+<body class="bg-[#212121] flex flex-col h-screen">
+
+<!--- Start of error message div -->
+<div id="alert-1" class="hidden fixed top-20 left-1/2 transform -translate-x-1/2 p-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 transition-transform duration-500 ease-in-out w-full sm:w-11/12 md:w-3/4 lg:w-1/2 xl:w-1/3 2xl:w-1/4" role="alert" style="z-index: 9999;">
+    <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+    </svg>
+    <div class="ml-3 text-sm font-medium alert-message">
+        A simple info alert with an example message. Give it a click if you like.
+    </div>
+    <button type="button" class="ms-auto text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-1" aria-label="Close">
+        <span class="sr-only">Close</span>
+        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+        </svg>
+    </button>
+</div>
+<!--- End of error message div -->
+
+<!-- Start of Header div --> 
+<div class="w-full flex justify-between items-center p-2 bg-[#171717] border-b border-[#212121]" style="z-index: 999;">
+    <div class="flex flex-col space-y-2">
+        <div class="flex gap-1 items-center p-1 rounded-lg">
+            <select class="form-select p-2 border border-gray-300 bg-transparent text-slate-300 hover:bg-gray-900 rounded-lg focus:outline-none w-28 md:w-36" id="model-select">
+            </select>
+            <span class="flex h-3 w-3 ml-2 group relative">
+                <span id="settings" class="hidden group-hover:flex text-slate-300 text-center absolute top-4 rounded-md bg-slate-700 px-2">NOT INITIALIZED</span>
+                <span id="status" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                <span id="status1" class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+            </span>
+        </div>
+    </div>
+    <div class="flex gap-1 items-center">
+        <img src="assets/logo.png" alt="" class="sm:w-10 sm:h-10 w-8 h-8 rounded-lg">
+        <span class="font-bold bg-gradient-to-r from-fuchsia-500 to-cyan-500 bg-clip-text text-transparent sm:text-2xl text-lg">Orian UI</span>
+    </div>
+    <div class="text-white group space-y-2 cursor-pointer">
+        <div class="usage border border-red-300 rounded-lg p-1 flex w-16 sm:w-20 md:w-24">
+            <span class="pl-1">CPU:</span> 
+            <span class="mx-auto" id="cpuUsage">00.0</span>
+        </div>
+        <div class="usage border border-purple-500 rounded-lg p-1 flex w-16 sm:w-20 md:w-24">
+            <span class="pl-1">RAM:</span>
+            <span class="mx-auto" id="ramUsage">00.0</span>
+        </div>
+        <span class="absolute -bottom-8 fade-in -right-3 mb-1 hidden group-hover:flex items-center justify-center bg-gray-800 text-white text-xs rounded px-2 py-1">
+            CPU and RAM usage %.
+        </span>
+    </div>
+</div>
+<!-- End of Header div --> 
+
+<!-- Start of chat log -->
+<div id="chatlog" class="flex-grow overflow-auto p-4">
+    <!--- Start of Suggestions at start page div -->
+    <div class="justify-center items-center flex h-full suggestion fade-in">
+        <div class="flex flex-col space-y-6 items-start">
+            <!-- Coding Icon -->
+            <div class="p-3 bg-[#212121] border border-gray-600 rounded-lg shadow-lg cursor-pointer w-full sm:w-44 hover:bg-gray-600 suggestions">
+                <img src="https://img.icons8.com/fluency/48/000000/source-code.png" alt="Coding icon" class="w-6 h-6 mr-0">
+                <div class="text-slate-300 font-semibold pt-2">Explain how to write a Python function.</div>
+            </div>
+            <!-- Email Icon -->
+            <div class="p-3 bg-[#212121] border border-gray-600 rounded-lg shadow-lg cursor-pointer w-full sm:w-44 hover:bg-gray-600 suggestions">
+                <img src="https://img.icons8.com/fluency/48/000000/email.png" alt="Email icon" class="w-6 h-6 mr-0">
+                <div class="text-slate-300 font-semibold pt-2">Draft a professional job application email.</div>
+            </div>
+            <!-- Search Icon -->
+            <div class="p-3 bg-[#212121] border border-gray-600 rounded-lg shadow-lg cursor-pointer w-full sm:w-44 hover:bg-gray-600 suggestions">
+                <img src="https://img.icons8.com/fluency/48/000000/search.png" alt="Search icon" class="w-6 h-6 mr-0">
+                <div class="text-slate-300 font-semibold pt-2">Provide tips for effective web searches.</div>
+            </div>
+            <div class="p-3 bg-[#212121] border border-gray-600 rounded-lg shadow-lg cursor-pointer w-full sm:w-44 hover:bg-gray-600 suggestions webchat-suggestion">
+                <img src="https://img.icons8.com/?size=100&id=aIYDmrSk6X13&format=png&color=000000" alt="Search icon" class="w-6 h-6 mr-0">
+                <div class="text-slate-300 font-semibold pt-2">Chat with this webpage now (Not RAG)</div>
+            </div>
+        </div>
+    </div>
+    <!--- End of Suggestions at start page div -->
+</div>
+<!-- End of chat log -->
+
+<!-- Start loading initially hidden bounce animation -->    
+<div class="p-5 ml-[5%] hidden absolute bottom-40" id="loading">
+    <span class="relative flex h-3 w-3 mr-2" style="animation: bounce 1s infinite; animation-delay: 0s;">
+        <span id="status1" class="relative inline-flex rounded-full h-3 w-3 bg-slate-500"></span>
+    </span>
+    <span class="relative flex h-3 w-3 mr-2" style="animation: bounce 1s infinite; animation-delay: 0.33s;">
+        <span id="status1" class="relative inline-flex rounded-full h-3 w-3 bg-slate-500"></span>
+    </span>
+    <span class="relative flex h-3 w-3 mr-2" style="animation: bounce 1s infinite; animation-delay: 0.66s;">
+        <span id="status1" class="relative inline-flex rounded-full h-3 w-3 bg-slate-500"></span>
+    </span>
+</div>
+<!-- End of loading animation -->   
+
+<!-- Input Box -->   
+<div class="w-full p-4 pb-0 ">
+    <div class="w-full mx-auto mb-1 p-3 bg-[#2f2f2f] border border-gray-600 rounded-lg relative">
+        <div class="group">
+            <!-- Close button -->  
+            <button type="button" class="ms-auto text-red-500 rounded-xl hover:bg-red-300 hover:text-white group-hover:inline-flex items-center justify-center h-6 w-6 absolute right-0.5 top-0.5 hidden bg-red-200" style="z-index: 999;" data-dismiss-target="#alert-1" aria-label="Close" id="close">
+                <span class="sr-only">Close</span>
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+            </button>
+            <!-- Close button --> 
+            <!-- Start of Context textarea hidden initially --> 
+            <textarea id="context-prompt" type="text" class="w-full h-10 p-2 rounded-md bg-[#171717] text-white resize-none outline-none min-h-40 max-h-40 text-md fade-in hidden font-medium"></textarea>
+            <!-- End of Context textarea --> 
+        </div>
+        <!-- Document preview --> 
+        <div class="document-container"></div>
+        <!-- Document preview --> 
+        <div class="relative">
+            <!-- Start Input textarea --> 
+            <textarea type="text" id="prompt" placeholder="Ask a follow-up" class="w-full flex-grow bg-[#2f2f2f] resize-none outline-none text-white text-lg pt-2 px-2 pb-0"></textarea>
+            <!-- End Input textarea --> 
+            <!-- Start Add context, STOP and Enter buttons --> 
+            <div class="flex justify-between">
+                <div id="toggleButton-list">
+                    <img src="https://img.icons8.com/?size=100&id=3220&format=png&color=FFFFFF" class="rounded-full" style="width:18px"/>
+                </div>
+                <!-- Hidden List -->
+                <div id="uploadList" class="hidden bg-[#2f2f2f] border border-gray-400 mt-4 absolute top-16 p-1 rounded-lg w-40 sm:w-44">
+                    <ul class="p-0">
+                        <li class="flex items-center p-1 px-3 mb-1 hover:bg-[#212121] rounded-lg input-context-li input-context-button">
+                            <img src="https://img.icons8.com/?size=100&id=3220&format=png&color=FFFFFF" class="w-6 p-1 text-white rounded-lg" />
+                            <span class="text-slate-300 group rounded-lg p-1 cursor-pointer">
+                                Add Context
+                            </span>
+                        </li>
+                        <li class="flex items-center px-3 mb-1 p-1 rounded-lg hover:bg-[#212121] fileInput-li">
+                            <label for="fileInput" class="cursor-pointer flex items-center">
+                                <img src="https://img.icons8.com/?size=90&id=exw8UcE4WyJ1&format=png&color=000000" class="w-6 p-1 text-white rounded-lg"/>
+                                <span class="text-slate-300 group rounded-lg p-1 cursor-pointer">
+                                    Upload File
+                                </span>
+                            </label>
+                            <input type="file" id="fileInput" accept=".txt, .pdf, .html, .js, .css, .java, .py, .cpp, .c, .cs, .php, .rb, .go, .rs, .swift, .ts, .xml, .json, .yaml, .yml" class="hidden">
+                        </li>
+                        <li class="flex items-center px-3 p-1 mb-1 rounded-lg hover:bg-[#212121] webchat-li">
+                            <img src="https://img.icons8.com/?size=100&id=aIYDmrSk6X13&format=png&color=000000" class="w-6 p-1 text-white rounded-lg" />
+                            <span class="text-slate-300 group rounded-lg p-1 cursor-pointer">
+                                Q&A webpage
+                            </span>
+                        </li>
+                        <li class="flex items-center p-1 px-3 mb-1 hover:bg-[#212121] rounded-lg input-context-li settings-li">
+                            <img src="https://img.icons8.com/?size=100&id=2969&format=png&color=FFFFFF" class="w-6 p-1 text-white rounded-lg" />
+                            <span class="text-slate-300 group rounded-lg p-1 cursor-pointer">
+                                Settings Page
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+               <div>
+                <span class="text-white bg-blue-500 p-1 rounded-lg hover:bg-blue-700 hover:text-slate-500 cursor-pointer" id="submit">&#x23CE; Enter</span>
+                <span id="stop-button" class="hidden text-white bg-red-500 p-1 rounded-lg hover:bg-red-700 hover:text-slate-500 cursor-pointer px-2">STOP</span>  
+               </div>
+            </div>
+            <!-- End Add context, STOP and Enter buttons --> 
+        </div>
+    </div>
+</div>
+<!-- End of Input Box -->   
+<p class="text-center text-slate-300 mb-1"><span class="text-[10px]">LLMs can make mistakes. Verify important information.</span></p>
+
+<script src="scripts/PanelUI/panel.js"></script>
+
+</body>
+</html>

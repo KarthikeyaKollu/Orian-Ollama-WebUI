@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orian Settings</title>
+    <link rel="stylesheet" href="css/output.css">
+    <style>
+        .toggle-description {
+            margin-left: 10px;
+        }
+        body {
+  position: relative;
+  background-image: url('assets/back-ground.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Adjust the last value (opacity) to control the darkness */
+  z-index: -1;
+}
+
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen bg-[#212121]">
+    <div class="bg-[#171717] border border-gray-600  text-white rounded-lg shadow-lg p-6 max-w-2xl w-full">
+        <div class="gap-1 flex items-center">
+            <img src="assets/logo.png" alt="" class="w-10 h-10 rounded-lg">
+            <span class="text-2xl font-bold bg-gradient-to-r from-fuchsia-500 to-cyan-500 bg-clip-text text-transparent">Orian Settings</span>
+          </div>
+        <div class="mb-6 mt-6">
+            
+            <p class=" mt-2">Orian (Ollama WebUI) is a Chrome extension that provides quick access to your favorite local Language Model (LLM) directly from your browser. With features like open-source chat integration, mail reply suggestions, and more, it's designed to enhance your browsing experience with AI capabilities.</p>
+           
+        </div>
+        <div class="mb-6">
+            <h4 class="text-lg font-semibold">🚀 Features</h4>
+            <ul class="list-disc list-inside  mt-2">
+                <li>Open Side Panel: Access your LLM with a side panel using <code class="bg-gray-800 rounded-lg p-1">Ctrl+Shift+Left</code> (or <code class="bg-gray-800 rounded-lg pl-0 p-1">Command+Shift+Left</code> on macOS).</li>
+                <li>Contextual Interaction: Select and interact with parts of websites for enhanced browsing.</li>
+                <li>Email Integration: Compose and reply to emails with AI-generated suggestions in Gmail.</li>
+                <li>Google Search Enhancements: Improved interaction with search results using marked.js and Prism.js.</li>
+                <li>Local LLM Integration: Communicates with a local instance of Ollama for AI responses.</li>
+            </ul>
+        </div>
+        <div class="mb-6">
+            <h4 class="text-lg font-semibold">💬 Chat Interface</h4>
+            <p class=" mt-2">The Chat Interface is a key feature of Orian, enabling seamless interaction with Ollama LLMs directly from your browser.</p>
+            <ul class="list-disc list-inside mt-2">
+                <li>Chat with Ollama LLMs: Interact with local language models for insightful responses and suggestions.</li>
+                <li>Contextual Website Chat: Engage in conversations about the content of the current webpage.</li>
+                <li>Customizable Prompts: Generate replies and posts based on selected text or specific prompts.</li>
+                <li>Integration with Multiple Platforms: Use within Gmail, Google Search.</li>
+            </ul>
+        </div>
+        <div class="mb-4">
+            <label class="flex items-center">
+                <input type="checkbox" id="toggleEmail" class="form-checkbox h-5 w-5 text-blue-600">
+                <span class="toggle-description">Enable Email Integration</span>
+            </label>
+            <p class="text-sm mt-1">Turn on this feature to Enhance your Gmail experience by enabling AI-generated suggestions for composing and replying to emails. This feature is fully operational and ready to help you communicate more effectively.</p>
+        </div>
+        <div class="mb-4">
+            <label class="flex items-center">
+                <input type="checkbox" id="toggleGoogleSearch" class="form-checkbox h-5 w-5 text-blue-600">
+                <span class="toggle-description">Enable Google Search Enhancements</span>
+            </label>
+            <p class=" text-sm mt-1">Turn on this feature to improve your experience with search results. With this feature enabled, you'll enjoy more intuitive and interactive search capabilities. Note: This feature is not available for live search at the moment.  </p>
+        </div>
+        <p> Note: The responses generated are entirely dependent on the language model (LLM) that you are using.</p>
+        <div class="mt-6">
+            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-400">Save Settings</button>
+        </div>
+    </div>
+    <script src="scripts/PanelUI/options.js"></script>
+</body>
+</html>
