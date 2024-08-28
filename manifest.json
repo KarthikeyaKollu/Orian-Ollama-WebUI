@@ -54,7 +54,8 @@
     },
     {
       "matches": [
-        "https://www.google.com/*"
+        "https://www.google.com/*",
+        "https://search.locker98.com/*"
       ],
       "js": [
         "lib/marked.min.js",

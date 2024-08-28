@@ -90,8 +90,8 @@ function google(){
       `;
   
     showSummary(content);
-    sendDataToBackground_Search(document.querySelector('#APjFqb').value)
-   
+    //sendDataToBackground_Search(document.querySelector('#APjFqb').value)
+    sendDataToBackground_Search(document.getElementById('q').value)
   }
   /**
    * Adds the provided HTML content to the #rhs element or its container.
@@ -101,20 +101,15 @@ function google(){
    * @param {string} content - The HTML content to be displayed.
    */
   function showSummary(content) {
-    const doc = document.getElementById('rhs');  // Get the #rhs element
+    const doc = document.getElementById('sidebar');  // Get the #rhs element
     const newContentDiv = document.createElement('div');
     newContentDiv.innerHTML = content;
-  
-    if (!doc) {
-      const class_rhs = document.querySelector('.GyAeWb');
-      newContentDiv.classList.add('ml-16');
-      // If #rhs is empty, directly append the content to the container
-      class_rhs.appendChild(newContentDiv);
-      return;
-    }
+    doc.appendChild(newContentDiv);
+    return;
+    
   
     // Insert the content at the beginning of #rhs
-    doc.insertBefore(newContentDiv, doc.firstChild);
+    //doc.insertBefore(newContentDiv, doc.firstChild);
   }
   
   
