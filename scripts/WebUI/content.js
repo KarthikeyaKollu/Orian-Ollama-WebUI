@@ -252,7 +252,7 @@ window.addEventListener('popstate', handleUrlChange);
 
 function onDocumentReady(currentTabUrl) {
 
-  if (currentTabUrl.includes("search.locker98.com/search")) {// Home page
+  if (currentTabUrl.includes("search.locker98.com/search") && currentTabUrl.includes("google.com/search") && currentTabUrl.includes("startpage.com/sp/search") && currentTabUrl.includes("duckduckgo.com")) {// Home page
     googleSearchComponent()
   }
   else if (currentTabUrl.includes("mail.google.com")) {

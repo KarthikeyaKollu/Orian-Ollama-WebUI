@@ -55,7 +55,9 @@
     {
       "matches": [
         "https://www.google.com/*",
-        "https://search.locker98.com/*"
+        "https://search.ononoki.org/*",
+        "https://www.startpage.com/*",
+        "https://duckduckgo.com/*"
       ],
       "js": [
         "lib/marked.min.js",
