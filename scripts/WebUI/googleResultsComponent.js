@@ -1,13 +1,13 @@
 
-chrome.storage.sync.get(['emailIntegration', 'googleSearchEnhancements'], (result) => {
+chrome.storage.sync.get(['emailIntegration', 'searchEnhancements'], (result) => {
 
-  if (result.googleSearchEnhancements !== undefined && result.googleSearchEnhancements === true) {
+  if (result.searchEnhancements !== undefined && result.searchEnhancements === true) {
 
-    google()
+    search()
   }
 });
 
-function google() {
+function search() {
   function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
@@ -35,7 +35,7 @@ function google() {
   // Verify the change
 
 
-  async function googleSearchComponent() {
+  async function searchComponent() {
     const content = ` 
       <div class="my-extension w-96">
            <div class="mb-10 w-full container-search relative">
@@ -387,10 +387,10 @@ function google() {
   /**
    * Mounts the search component onto the web UI.
    * This function initializes and integrates a search component within the
-   * existing Google Search interface, allowing users to interact with it
+   * existing internet search interface, allowing users to interact with it
    * directly from the webpage.
    */
-  googleSearchComponent()
+  searchComponent()
 
 
 
