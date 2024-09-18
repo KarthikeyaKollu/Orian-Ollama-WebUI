@@ -1,4 +1,4 @@
-# 🌐 Orian (Ollama WebUI)
+<div align="center"> <h1>🌐 Orian (Ollama WebUI)</h1> </div>
 
 ## Overview 🔍📊🗂️📋
 **Orian** (Ollama WebUI) is a Chrome extension that provides quick access to your favorite local Language Model (LLM) directly from your browser. With features like open-source chat integration, mail reply suggestions, and more, it's designed to enhance your browsing experience with AI capabilities.
