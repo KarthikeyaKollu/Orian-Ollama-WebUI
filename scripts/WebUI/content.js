@@ -4,7 +4,7 @@
 
 
 
-// end of googleSearchComponent
+// end of searchComponent
 
 
 
@@ -252,8 +252,8 @@ window.addEventListener('popstate', handleUrlChange);
 
 function onDocumentReady(currentTabUrl) {
 
-  if (currentTabUrl.includes("www.google.com/search")) {// Home page
-    googleSearchComponent()
+  if (currentTabUrl.includes("search.locker98.com/search") && currentTabUrl.includes("google.com/search") && currentTabUrl.includes("startpage.com/sp/search") && currentTabUrl.includes("duckduckgo.com")) {// Home page
+    searchComponent()
   }
   else if (currentTabUrl.includes("mail.google.com")) {
     console.log("You are on Google Mail.");

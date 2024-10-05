@@ -1,32 +1,41 @@
 
-chrome.storage.sync.get(['emailIntegration', 'googleSearchEnhancements'], (result) => {
+chrome.storage.sync.get(['emailIntegration', 'searchEnhancements'], (result) => {
 
-  if (result.googleSearchEnhancements !== undefined && result.googleSearchEnhancements ===true) {
-    
-      google()
+  if (result.searchEnhancements !== undefined && result.searchEnhancements === true) {
+
+    search()
   }
 });
 
-function google(){
+function search() {
   function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
-  
+
+  function getCurrentUrl() {
+    return window.location.href;
+  }
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+
   // Get the body element
   const bodyElement = document.body;
-  
+
   // Get the computed styles of the body element
   const computedStyles = window.getComputedStyle(bodyElement);
-  
+
   // Log the current box-sizing property value
-  
+
   // Set the box-sizing property value to content-box
   bodyElement.style.boxSizing = "content-box";
-  
+
   // Verify the change
-  
-  
-  async function googleSearchComponent() {
+
+
+  async function searchComponent() {
     const content = ` 
       <div class="my-extension w-96">
            <div class="mb-10 w-full container-search relative">
@@ -88,10 +97,10 @@ function google(){
         <div class=" bg-yellow-600 w-full text-sm text-center  py-4  rounded-br-lg rounded-bl-lg">AI maybe inaccurate. Use 'Live Search' for best result</div>
         </div>
       `;
-  
+
     showSummary(content);
-    sendDataToBackground_Search(document.querySelector('#APjFqb').value)
-   
+
+
   }
   /**
    * Adds the provided HTML content to the #rhs element or its container.
@@ -101,25 +110,95 @@ function google(){
    * @param {string} content - The HTML content to be displayed.
    */
   function showSummary(content) {
-    const doc = document.getElementById('rhs');  // Get the #rhs element
-    const newContentDiv = document.createElement('div');
-    newContentDiv.innerHTML = content;
-  
-    if (!doc) {
+    var currentUrl = getCurrentUrl();
+
+
+    if (currentUrl.includes("search.ononoki.org/search")) {// Home page
+      const doc = document.getElementById('sidebar');  // Get the #rhs element
+      const newContentDiv = document.createElement('div');
+      newContentDiv.innerHTML = content;
+      doc.appendChild(newContentDiv)
+
+      // get results
+      sendDataToBackground_Search(document.getElementById('q').value);
+    }
+    else if (currentUrl.includes("google.com/search")) {// Home page
+
+      const doc = document.getElementById('rhs');  // Get the #rhs element
+      const newContentDiv = document.createElement('div');
+      newContentDiv.innerHTML = content;
       const class_rhs = document.querySelector('.GyAeWb');
       newContentDiv.classList.add('ml-16');
       // If #rhs is empty, directly append the content to the container
       class_rhs.appendChild(newContentDiv);
-      return;
+
+      // Get results
+      sendDataToBackground_Search(document.querySelector('#APjFqb').value);
     }
-  
+    else if (currentUrl.includes("duckduckgo.com")) {// Home page
+      console.log("duckduckgo");
+
+      const doc = document.querySelectorAll('[data-area="sidebar"]')[0];
+      const ol = document.createElement('ol');
+      const li = document.createElement('li');
+      const newContentDiv = document.createElement('div');
+
+      ol.appendChild(li);
+      li.appendChild(newContentDiv);
+
+
+      newContentDiv.innerHTML = content;
+
+      doc.appendChild(ol);
+
+      // get results
+      sendDataToBackground_Search(document.getElementById('search_form_input').value);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    else if (currentUrl.includes("startpage.com")) {// Home page
+      console.log("startpage");
+
+      sleep(500).then(() => {
+
+        const doc = document.getElementById("sidebar"); // ClassName('filters css-17xytvj')[0]; //'sidebar-sxpr')[0];  // Get the #rhs element
+ 
+        const newContentDiv = document.createElement('div');
+
+        newContentDiv.innerHTML = content;
+        doc.prepend(newContentDiv);
+
+
+        console.log(doc);
+
+
+        sendDataToBackground_Search(document.getElementById('q').value);
+      });
+    }
+
+    return;
     // Insert the content at the beginning of #rhs
-    doc.insertBefore(newContentDiv, doc.firstChild);
+    //doc.insertBefore(newContentDiv, doc.firstChild);
   }
-  
-  
+
+
   function sendDataToBackground_Search(query) {
-  
+
     const live_search = false;
     let fullPrompt = ''
     if (!live_search) {
@@ -160,23 +239,23 @@ function google(){
     const closeButton = alertDiv.querySelector('#closeButton');
     closeButton.addEventListener('click', function () {
       alertDiv.classList.remove('hidden')
-  
+
       alertDiv.classList.add('-translate-y-full');
       setTimeout(() => {
         alertDiv.classList.add('hidden');
       }, 500); // Match the duration with transition duration
     });
-  
-  
-  
+
+
+
     const container = document.getElementById('container');
     const loading_search = document.querySelector('.loading_search');
-  
+
     // Establish connection with background script
     const port = chrome.runtime.connect({ name: 'ollama_port' });
-  let data_p=''
-  let model =''
-  const model_span = document.querySelector('.model')
+    let data_p = ''
+    let model = ''
+    const model_span = document.querySelector('.model')
     // Listening for messages from background script
     port.onMessage.addListener(async function (response) {
       if (response.type === "ERROR") {
@@ -184,58 +263,58 @@ function google(){
         loading_search.classList.add('hidden');
         document.getElementById('stop-button').classList.add('hidden'); // Hide the stop button
         document.getElementById('reload-button').classList.remove('hidden');
-      }if(response.type === "MODEL"){
-           model = response.model
-           model_span.textContent=model
+      } if (response.type === "MODEL") {
+        model = response.model
+        model_span.textContent = model
       }
       if (response.type === 'WORD') {
-  
+
         data_p += response.resp;
         let htmlContent = marked.parse(data_p);
         container.innerHTML = htmlContent;
         Prism.highlightAllUnder(container);
-       addCopyButtonsAndClasses(document.querySelectorAll('pre'))
+        addCopyButtonsAndClasses(document.querySelectorAll('pre'))
         loading_search.classList.add('hidden');
-       
-        port.postMessage({ status: true ,type:"STREAM"});
+
+        port.postMessage({ status: true, type: "STREAM" });
       } else if (response.type === 'FINISHED') {
-        
-         
+
+
         // const parsedContent = marked.parse(response.resp);
-        
+
         // container.innerHTML = parsedContent;
-        container.classList.add('shine','overflow-hidden','fade-in')
-  
-        
+        container.classList.add('shine', 'overflow-hidden', 'fade-in')
+
+
         document.getElementById('stop-button').classList.add('hidden');
         document.getElementById('reload-button').classList.remove('hidden');
-  
+
         await delay(700)
         bodyElement.style.boxSizing = "content-box";
         console.log("box-sizing:", computedStyles.getPropertyValue("box-sizing"));
-       }
-      
+      }
+
     });
-  
-  
+
+
     document.getElementById('stop-button').addEventListener('click', () => {
       // Abort the ongoing request
       showAlert("The response was aborted by the user.")
       document.getElementById('stop-button').classList.add('hidden'); // Hide the stop button
       document.getElementById('reload-button').classList.remove('hidden');
       loading_search.classList.add('hidden')
-  
+
       port.postMessage({ type: 'STOP' });
     });
     document.getElementById('reload-button').addEventListener('click', (event) => {
       window.location.reload();
     });
-  
-  
+
+
     // Start the search with the given query
     port.postMessage({ type: 'SEARCH', query: fullPrompt });
   }
-  
+
   // Function to add copy buttons and language display to code blocks
   const addCopyButtonsAndClasses = (nodes) => {
     nodes.forEach(node => {
@@ -258,12 +337,12 @@ function google(){
                 var lang = codeElement.classList[0].split("-")[1];
                 lang = lang.charAt(0).toUpperCase() + lang.slice(1);
               }
-  
+
               // Create toolbar for copy button and language display
               var toolbar = document.createElement("div");
               toolbar.classList.add('border', 'border-gray-700', 'text-white', 'p-1', 'rounded-tr-lg', 'rounded-tl-lg', 'toolbar', 'flex', 'justify-between', 'mt-3', 'overflow-hidden');
               pre.parentNode.insertBefore(toolbar, pre);
-  
+
               // Create and inject copy button if not already present
               if (!pre.querySelector('.copy-button')) {
                 const copyButton = document.createElement('button');
@@ -272,11 +351,11 @@ function google(){
                 language.classList.add('text-sm', 'p-1', 'px-1');
                 copyButton.classList.add('text-sm', 'bg-black', 'text-white', 'rounded-md', 'p-1', 'px-1');
                 copyButton.textContent = 'Copy';
-  
+
                 // Append language and copy button to the toolbar
                 toolbar.appendChild(language);
                 toolbar.appendChild(copyButton);
-  
+
                 // Add click event listener to the copy button
                 copyButton.addEventListener('click', async () => {
                   // Get the content of the code element
@@ -300,24 +379,24 @@ function google(){
       }
     });
   };
-  
-  
-  
-  
-  
+
+
+
+
+
   /**
    * Mounts the search component onto the web UI.
    * This function initializes and integrates a search component within the
-   * existing Google Search interface, allowing users to interact with it
+   * existing internet search interface, allowing users to interact with it
    * directly from the webpage.
    */
-  googleSearchComponent() 
-  
-  
-  
-  
-  
-  
+  searchComponent()
+
+
+
+
+
+
   /**
    * Displays an alert message on the screen.
    * 
@@ -329,21 +408,21 @@ function google(){
    */
   function showAlert(message) {
     const alertDiv = document.querySelector('#alert-1');  // Select the alert container
-    
+
     alertDiv.querySelector('.alert-message').textContent = message;  // Set the message content
     alertDiv.classList.remove('hidden', '-translate-y-full');  // Show the alert
     alertDiv.classList.add('flex');
-  
+
     // Close the alert after 3 seconds
     setTimeout(() => {
       alertDiv.classList.add('hidden', '-translate-y-full');  // Hide the alert
       alertDiv.classList.remove('flex');
     }, 5000);
   }
-  
-  
-  
-  
+
+
+
+
   /**
    * Adds click event listeners to elements with the ID 'startChat'.
    * When clicked, sends a message to open the Chrome side panel 
@@ -354,16 +433,16 @@ function google(){
    * and sends it as a message of type 'FOLLOWUP'.
    */
   document.querySelectorAll("#startChat").forEach((btn) => {
-    btn.addEventListener('click',async  () => {
+    btn.addEventListener('click', async () => {
       // Send message to open the side panel
       chrome.runtime.sendMessage({ action: 'openSidePanel' });
       await delay(1000)
-  
+
       // Check if button text does not include 'New'/ StartNewchat
       if (!btn.textContent.includes('New')) {
         // Retrieve trimmed text content from the 'container' element
         const data = document.getElementById('container').textContent.trim();
-        
+
         // Send the content as a 'FOLLOWUP' message if it's not empty
         if (data) {
           chrome.runtime.sendMessage({ type: "FOLLOWUP", text: data });
@@ -371,11 +450,11 @@ function google(){
       }
     });
   });
-  
-  
-  
-  
-  
+
+
+
+
+
 }
 
 

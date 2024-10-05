@@ -9,7 +9,7 @@
 - **Open Side Panel:** Access your LLM with a side panel using `Ctrl+Shift+Left` (or `Command+Shift+Left` on macOS).
 - **Contextual Interaction:** Select and interact with parts of websites for enhanced browsing.
 - **Email Integration:** Compose and reply to emails with AI-generated suggestions in Gmail.
-- **Google Search Enhancements:** Improved interaction with search results using marked.js and Prism.js.
+- **Search Enhancements:** Improved interaction with search results using marked.js and Prism.js. Avalibale on Google, Duckduckgo, Searx, and Startpage.
 - **Local LLM Integration:** Communicates with a local instance of Ollama for AI responses.
 
 ## 💬 Chat Interface
@@ -19,7 +19,7 @@ The Chat Interface is a key feature of Orian, enabling seamless interaction with
 - **Chat with Ollama LLMs:** Interact with local language models for insightful responses and suggestions.
 - **Contextual Website Chat:** Engage in conversations about the content of the current webpage.
 - **Customizable Prompts:** Generate replies and posts based on selected text or specific prompts.
-- **Integration with Multiple Platforms:** Use within Gmail, Google Search, and more.
+- **Integration with Multiple Platforms:** Use within Gmail, Google Search, Duckduckgo, Searx, Startpage, and more.
 
 ### Usage
 - **Chat Window:** Easily accessible through the side panel.

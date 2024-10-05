@@ -1,26 +1,26 @@
 document.addEventListener('DOMContentLoaded', () => {
     const emailCheckbox = document.getElementById('toggleEmail');
-    const googleSearchCheckbox = document.getElementById('toggleGoogleSearch');
+    const searchCheckbox = document.getElementById('toggleSearch');
     const saveButton = document.querySelector('button');
 
     // Fetch and update saved settings
-    chrome.storage.sync.get(['emailIntegration', 'googleSearchEnhancements'], (result) => {
+    chrome.storage.sync.get(['emailIntegration', 'searchEnhancements'], (result) => {
         if (result.emailIntegration !== undefined) {
             emailCheckbox.checked = result.emailIntegration;
         }
-        if (result.googleSearchEnhancements !== undefined) {
-            googleSearchCheckbox.checked = result.googleSearchEnhancements;
+        if (result.searchEnhancements !== undefined) {
+            searchCheckbox.checked = result.searchEnhancements;
         }
     });
 
     // Save settings
     saveButton.addEventListener('click', () => {
         const emailIntegration = emailCheckbox.checked;
-        const googleSearchEnhancements = googleSearchCheckbox.checked;
+        const searchEnhancements = searchCheckbox.checked;
 
         chrome.storage.sync.set({
             emailIntegration,
-            googleSearchEnhancements
+            searchEnhancements
         }, () => {
             showAlert("Your settings have been saved successfully.")
         });
